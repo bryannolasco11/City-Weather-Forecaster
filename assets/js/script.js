@@ -6,15 +6,18 @@
 //      date, icon rep of weather, temp, wind speed, humidity
 //4)city goes in history and is clickable
 
+// Fetch the api
+var getCityWeather = function(city) {
+    // format the weather api url
+    var apiUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=1&appid=d1ab203420f36de067c22f518689252f";
 
-var getCityWeather = function() {
-    console.log("function was called");
-    fetch("http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid=d1ab203420f36de067c22f518689252f").then(function(response) {
+    // make a request to the url
+    fetch(apiUrl).then(function(response) {
        response.json().then(function(data) {
            console.log(data);
        })
     });
-    console.log("outside");
+    
 };
 
-getCityWeather();
+getCityWeather("Scottsdale");
