@@ -31,7 +31,7 @@ var formSubmitHandler = function(event) {
     
     //get value from input element
     var city = cityInputEl.value.trim();
-
+    console.log(city);
     if (city) {
         getCityWeather(city);
         cityInputEl = "";
