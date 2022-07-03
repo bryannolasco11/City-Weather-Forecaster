@@ -1,5 +1,7 @@
 var userFormEl = document.querySelector("#user-form");
 var cityInputEl = document.querySelector("#city");
+var cityContainerEl = document.querySelector("#city-container");
+var citySearchTerm = document.querySelector("#city-search-term");
 // 1)Create the search function
 // 2)display current city conditions
 //      name, current date, icon representative for current weather, temperature, humidity, wind speed, and UV index with color indication
@@ -18,7 +20,7 @@ var getCityWeather = function(city) {
     // make a request to the url
     fetch(apiUrl).then(function(response) {
        response.json().then(function(data) {
-           console.log(data);
+           displayCity(data, city);
        })
     });
     
@@ -37,6 +39,15 @@ var formSubmitHandler = function(event) {
     } else {
         alert("Please enter a city");
     }
+};
+
+var displayCity = function(city, searchTerm) {
+    console.log(city);
+    console.log(searchTerm);
+
+    // clear old content
+    cityContainerEl.textContent = "";
+    citySearchTerm.textContent = searchTerm;
 };
 
 userFormEl.addEventListener("submit", formSubmitHandler);
