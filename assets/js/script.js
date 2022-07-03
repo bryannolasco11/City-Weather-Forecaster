@@ -2,6 +2,8 @@ var userFormEl = document.querySelector("#user-form");
 var cityInputEl = document.querySelector("#city");
 var cityContainerEl = document.querySelector("#city-container");
 var citySearchTerm = document.querySelector("#city-search-term");
+
+
 // 1)Create the search function
 // 2)display current city conditions
 //      name, current date, icon representative for current weather, temperature, humidity, wind speed, and UV index with color indication
@@ -15,7 +17,7 @@ var citySearchTerm = document.querySelector("#city-search-term");
 // Fetch the api
 var getCityWeather = function(city) {
     // format the weather api url
-    var apiUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=1&appid=d1ab203420f36de067c22f518689252f";
+    var apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=526fc11b10a27117543151b1de2f92b6";
 
     // make a request to the url
     fetch(apiUrl).then(function(response) {
@@ -49,13 +51,33 @@ var formSubmitHandler = function(event) {
     }
 };
 
-var displayCity = function(city, searchTerm) {
-    console.log(city);
-    console.log(searchTerm);
+var displayCity = function(data, citySearchTerm) {
+    console.log(data);
+    console.log(citySearchTerm);
 
     // clear old content
     cityContainerEl.textContent = "";
-    citySearchTerm.textContent = searchTerm;
+    citySearchTerm.textContent = citySearchTerm;
+
+    //display info
+    var newCityTemp = Number(data.main.temp);
+    console.log(newCityTemp);
+    //how do I get the date?
+    var dateTemp = Number(data.dt);
+    console.log(dateTemp);
+    var newHumidity = Number(data.main.humidity);
+    console.log(newHumidity);
+    var newWindSpeed = Number(data.wind.speed);
+    console.log(newWindSpeed);
+    var newIcon = src=" http://openweathermap.org/img/wn/" +data.weather[0].icon;
+    console.log(newIcon);
+    var newLat = Number(data.coord.lat);
+    console.log(newLat);
+    var newLon = Number(data.coord.lon);
+    console.log(newLon);
+
+    
+
 };
 
 userFormEl.addEventListener("submit", formSubmitHandler);
