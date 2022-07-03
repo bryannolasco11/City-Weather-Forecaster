@@ -19,9 +19,17 @@ var getCityWeather = function(city) {
 
     // make a request to the url
     fetch(apiUrl).then(function(response) {
-       response.json().then(function(data) {
-           displayCity(data, city);
-       })
+        if(response.ok) {
+            response.json().then(function(data) {
+            displayCity(data, city);
+          });
+        } else {
+            alert("Error: City Not Found");
+        }
+    })
+    .catch(function(error) {
+        // Notice this `.catch()` getting chained onto the end of the `then()` method
+        alert("Unable to connect to Weather");
     });
     
 };
