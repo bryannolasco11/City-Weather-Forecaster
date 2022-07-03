@@ -1,3 +1,5 @@
+var userFormEl = document.querySelector("#user-form");
+var cityInputEl = document.querySelector("#city");
 // 1)Create the search function
 // 2)display current city conditions
 //      name, current date, icon representative for current weather, temperature, humidity, wind speed, and UV index with color indication
@@ -5,6 +7,8 @@
 // 3)5 day forecast
 //      date, icon rep of weather, temp, wind speed, humidity
 //4)city goes in history and is clickable
+
+
 
 // Fetch the api
 var getCityWeather = function(city) {
@@ -20,4 +24,19 @@ var getCityWeather = function(city) {
     
 };
 
-getCityWeather("Scottsdale");
+var formSubmitHandler = function(event) {
+    event.preventDefault();
+    
+    //get value from input element
+    var city = cityInputEl.value.trim();
+
+    if (city) {
+        getCityWeather(city);
+        cityInputEl = "";
+
+    } else {
+        alert("Please enter a city");
+    }
+};
+
+userFormEl.addEventListener("submit", formSubmitHandler);
