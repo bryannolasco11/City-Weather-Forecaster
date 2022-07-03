@@ -9,6 +9,7 @@
 
 var getCityWeather = function() {
     console.log("function was called");
+    fetch("http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid=d1ab203420f36de067c22f518689252f");
 };
 
 getCityWeather();
