@@ -3,7 +3,10 @@ var cityInputEl = document.querySelector("#city");
 var cityContainerEl = document.getElementById("city-container");
 var citySearchTerm = document.querySelector("#city-search-term");
 var currentTempEl= document.querySelector("#currentTemp");
-var newCitySearchTerm= "Brookfield"
+var fiveDayEl = document.querySelector(".cityFiveDay");
+var newCitySearchTerm = "Brookfield";
+//var dayDiv = document.createElement("p");
+
 
 // 1)Create the search function
 // 2)display current city conditions
@@ -27,6 +30,7 @@ var getCityWeather = function(lon,lat,city) {
             response.json().then(function(data) {
                 console.log(data);
             displayCity(data,city);
+            displayFiveDay(data, city); 
             });
         } else {
             alert("Error: City Not Found");
@@ -131,9 +135,20 @@ var displayCity = function(data, citySearchTerm) {
     // var newIcon = data.current.weather[0].icon;
     // console.log(newIcon);
     // document.querySelector(".icon").src = "https://openweathermap.org/img/wn/"+newIcon+".png";
-
-
-
 };
+
+var displayFiveDay = function (data, city) {
+    for (var i = 1 ; i < 5 ; i++) {
+        var dayDiv = document.createElement("div");
+        fiveDayEl.appendChild(dayDiv);
+        // low temp
+        var lowP = document.createElement("p");
+        var tempLow =data.daily[i].temp.min;
+        lowP.innerHTML= "Low temp: "+tempLow;
+        dayDiv.appendChild(lowP);
+        console.log(tempLow);
+
+    }
+}
 
 userFormEl.addEventListener("submit", formSubmitHandler);
