@@ -5,6 +5,7 @@ var citySearchTerm = document.querySelector("#city-search-term");
 var currentTempEl= document.querySelector("#currentTemp");
 var fiveDayEl = document.querySelector(".cityFiveDay");
 var newCitySearchTerm = "Brookfield";
+
 //var dayDiv = document.createElement("p");
 
 
@@ -31,6 +32,7 @@ var getCityWeather = function(lon,lat,city) {
                 console.log(data);
             displayCity(data,city);
             displayFiveDay(data, city); 
+            citySearchHistory(city);
             });
         } else {
             alert("Error: City Not Found");
@@ -137,8 +139,9 @@ var displayCity = function(data, citySearchTerm) {
     // document.querySelector(".icon").src = "https://openweathermap.org/img/wn/"+newIcon+".png";
 };
 
+//need dates
 var displayFiveDay = function (data, city) {
-    for (var i = 1 ; i < 5 ; i++) {
+    for (var i = 1 ; i < 6 ; i++) {
         var dayDiv = document.createElement("div");
         fiveDayEl.appendChild(dayDiv);
         // low temp
@@ -147,7 +150,21 @@ var displayFiveDay = function (data, city) {
         lowP.innerHTML= "Low temp: "+tempLow;
         dayDiv.appendChild(lowP);
         console.log(tempLow);
-
+        //high temp
+        var highP = document.createElement("p");
+        var tempHigh = data.daily[i].temp.max;
+        highP.innerHTML= "High temp: "+tempHigh;
+        dayDiv.appendChild(highP);
+        //wind speed
+        var wSpeedP = document.createElement("p");
+        var wSpeed = data.daily[i].wind_speed;
+        wSpeedP.innerHTML= "Wind Speed: "+wSpeed;
+        dayDiv.appendChild(wSpeedP);
+        //humidity
+        var humP = document.createElement("p");
+        var humidityDaily = data.daily[i].humidity;
+        humP.innerHTML= "Humidity: "+humidityDaily;
+        dayDiv.appendChild(humP);
     }
 }
 
