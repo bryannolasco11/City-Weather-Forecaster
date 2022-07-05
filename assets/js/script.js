@@ -5,7 +5,7 @@ var citySearchTerm = document.querySelector("#city-search-term");
 var currentTempEl= document.querySelector("#currentTemp");
 var fiveDayEl = document.querySelector(".cityFiveDay");
 var newCitySearchTerm = "Brookfield";
-
+var allCities = [];
 //var dayDiv = document.createElement("p");
 
 
@@ -23,8 +23,7 @@ var newCitySearchTerm = "Brookfield";
 var getCityWeather = function(lon,lat,city) {
     // format the weather api url
     var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon +"&units=imperial&appid=526fc11b10a27117543151b1de2f92b6";
-    console.log(city);
-    console.log(lat);
+    
     // make a request to the url
     fetch(apiUrl).then(function(response) {
         if(response.ok) {
@@ -32,7 +31,7 @@ var getCityWeather = function(lon,lat,city) {
                 console.log(data);
             displayCity(data,city);
             displayFiveDay(data, city); 
-            citySearchHistory(city);
+            //save(city);
             });
         } else {
             alert("Error: City Not Found");
@@ -45,14 +44,14 @@ var getCityWeather = function(lon,lat,city) {
 };
 
 var getCityLocation = function (city) {
-   console.log("this is working");
+   
     var geoApiUrl = "http://api.openweathermap.org/geo/1.0/direct?q="+city+"&limit=1&appid=526fc11b10a27117543151b1de2f92b6";
-    console.log(city);
+    
     
     fetch(geoApiUrl).then(function(response) {
         if(response.ok) {
             response.json().then(function(data) {
-            console.log(data);
+            
                 var newLat = data[0].lat;
                 var newLon = data[0].lon;
             getCityWeather(newLon, newLat,city);
@@ -68,10 +67,10 @@ var formSubmitHandler = function(event) {
     
     //get value from input element
     var city = cityInputEl.value.trim();
-    console.log(city);
+    
     if (city) {
         getCityLocation(city);
-        cityInputEl = "";
+        //cityInputEl = "";
 
     } else {
         alert("Please enter a city");
@@ -79,10 +78,9 @@ var formSubmitHandler = function(event) {
 };
 
 var displayCity = function(data, citySearchTerm) {
-        console.log(data);
-        console.log(citySearchTerm);
+        
 
-     // clear old content
+    // clear old content
      cityContainerEl.textContent = "";
      newCitySearchTerm.textContent = citySearchTerm;
 
@@ -96,7 +94,7 @@ var displayCity = function(data, citySearchTerm) {
 
     // current temp
     var newCityTemp = data.current.temp;
-    console.log(newCityTemp);
+    
     var tempP = document.createElement("p");
     tempP.innerHTML = "Current Temp: " + newCityTemp +" degrees F";
     cityContainerEl.appendChild(tempP);
@@ -107,21 +105,21 @@ var displayCity = function(data, citySearchTerm) {
     
      // current humidity
     var newHumidity = data.current.humidity;
-    console.log(newHumidity);
+   
     var humidityP = document.createElement("p");
     humidityP.innerHTML = "Humdity: " +newHumidity + "%";
     cityContainerEl.appendChild(humidityP);
 
      // current wind speed
     var newWindSpeed = data.current.wind_speed;
-    console.log(newWindSpeed);
+    
     var windP = document.createElement("p");
     windP.innerHTML = "Wind Speed: " + newWindSpeed + " MPH"; 
     cityContainerEl.appendChild(windP);
 
     // UV index
     var newUV = data.current.uvi;
-    console.log(newUV);
+    
     var uvP = document.createElement("p");
     uvP.innerHTML = "UV Index: " + newUV;
     cityContainerEl.appendChild(uvP);
@@ -141,15 +139,28 @@ var displayCity = function(data, citySearchTerm) {
 
 //need dates
 var displayFiveDay = function (data, city) {
+    fiveDayEl.textContent = "";
     for (var i = 1 ; i < 6 ; i++) {
         var dayDiv = document.createElement("div");
         fiveDayEl.appendChild(dayDiv);
+        
+        // Dates
+        var dateP = document.createElement("p");
+        var newDate = moment.unix(data.daily[i].dt).format("M/D/YY");
+        dateP.innerHTML=newDate;
+        dayDiv.appendChild(dateP);
+
+        // icon
+        var dailyIconEl = document.createElement("img");
+        var dailyIcon = data.daily[i].weather[0].icon;
+        dailyIconEl.setAttribute("src", "http://openweathermap.org/img/wn/"+dailyIcon+"@2x.png");
+        dayDiv.appendChild(dailyIconEl);
         // low temp
         var lowP = document.createElement("p");
         var tempLow =data.daily[i].temp.min;
         lowP.innerHTML= "Low temp: "+tempLow;
         dayDiv.appendChild(lowP);
-        console.log(tempLow);
+        
         //high temp
         var highP = document.createElement("p");
         var tempHigh = data.daily[i].temp.max;
@@ -168,4 +179,42 @@ var displayFiveDay = function (data, city) {
     }
 }
 
+// //var save = function (newCity) {
+//     console.log(newCity);
+//     if (localStorage.getItem('allCities') == null) {
+//         localStorage.setItem('allCities', '[]');
+//     }
+
+//     // for (var i = 0; i < cities.length; i++) {
+//     //     if (newCity == cities[i]) {
+//     //         console.log("I am in the city loop");
+//     //         citySearchHistory();
+//     //     }
+//     // }
+
+    
+//     allCities.push(newCity);
+//     console.log(allCities);
+//     localStorage.setItem("allCities", JSON.stringify(allCities));
+
+// }
+
+// var citySearchHistory = function() {
+//     console.log("this is the end");
+// }
+
+
+var saved = function() {
+     var savedCity = document.getElementById('city').value;
+     console.log(savedCity);
+     if (localStorage.getItem('cities')==null)  {
+         localStorage.setItem('cities', "[]");
+     }
+     var oldCity = JSON.parse(localStorage.getItem('cities'));
+     oldCity.push(savedCity);
+     localStorage.setItem('cities', JSON.stringify(oldCity));
+}
+   
+
 userFormEl.addEventListener("submit", formSubmitHandler);
+userFormEl.addEventListener("submit", saved);
