@@ -6,6 +6,8 @@ var currentTempEl= document.querySelector("#currentTemp");
 var fiveDayEl = document.querySelector(".cityFiveDay");
 var newCitySearchTerm = "Brookfield";
 var allCities = [];
+var historyContainerEl = document.querySelector("#historyContainer");
+
 //var dayDiv = document.createElement("p");
 
 
@@ -31,6 +33,7 @@ var getCityWeather = function(lon,lat,city) {
                 console.log(data);
             displayCity(data,city);
             displayFiveDay(data, city); 
+            loadCities();
             //save(city);
             });
         } else {
@@ -85,13 +88,18 @@ var displayCity = function(data, citySearchTerm) {
      newCitySearchTerm.textContent = citySearchTerm;
 
     //display info
-     // display city name
-    
      
+    //icon
+    var todayIcon = data.current.weather[0].icon;
+    var currentIconEl = document.createElement("img");
+    currentIconEl.setAttribute("src", "http://openweathermap.org/img/wn/"+todayIcon+"@2x.png");
+    cityContainerEl.appendChild(currentIconEl);
+     // display city name and date
+     var todayDate = moment.unix(data.current.dt).format("M/D/YY");
      var cityP = document.createElement("p");
-     cityP.innerHTML = citySearchTerm;
+     cityP.innerHTML = citySearchTerm + " "+todayDate;
      cityContainerEl.appendChild(cityP);
-
+   
     // current temp
     var newCityTemp = data.current.temp;
     
@@ -210,11 +218,47 @@ var saved = function() {
      if (localStorage.getItem('cities')==null)  {
          localStorage.setItem('cities', "[]");
      }
+     
+     
      var oldCity = JSON.parse(localStorage.getItem('cities'));
+    //  for (i=0; i <oldCity.length;i++)
+    //  var eachCity=oldCity[i];
+    //  console.log(eachCity);
+    //  if (savedCity=eachCity) {
+    //      loadCities();
+    //  }
+     
      oldCity.push(savedCity);
+     console.log(oldCity);
      localStorage.setItem('cities', JSON.stringify(oldCity));
 }
-   
+
+var loadCities = function() {
+    cityArr = JSON.parse(localStorage.getItem("cities"));
+    console.log(cityArr);
+    if (cityArr !== null) {
+        for (i=0; i <cityArr.length; i++) {
+            var eachCity = cityArr[i];
+            cityButtons(eachCity);
+        
+        }
+       
+    }
+}
+
+var cityButtons = function(newEachCity) {
+    var ctyBtn = document.createElement("button");
+    ctyBtn.innerHTML=newEachCity;
+    console.log(newEachCity);
+    historyContainerEl.appendChild(ctyBtn);
+    ctyBtn.classList.add('cityButton');
+   ctyBtn.onclick = clickAnswer(newEachCity)
+
+}
+function clickAnswer(eachCity) {
+    console.log(eachCity)
+}
+
 
 userFormEl.addEventListener("submit", formSubmitHandler);
 userFormEl.addEventListener("submit", saved);
