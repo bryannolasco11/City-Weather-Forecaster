@@ -67,14 +67,11 @@ var getCityLocation = function (city) {
 
 var formSubmitHandler = function(event) {
     event.preventDefault();
-    
     //get value from input element
     var city = cityInputEl.value.trim();
-    
     if (city) {
         getCityLocation(city);
-        //cityInputEl = "";
-
+        saved(city)
     } else {
         alert("Please enter a city");
     }
@@ -212,15 +209,17 @@ var displayFiveDay = function (data, city) {
 // }
 
 
-var saved = function() {
-     var savedCity = document.getElementById('city').value;
-     console.log(savedCity);
-     if (localStorage.getItem('cities')==null)  {
-         localStorage.setItem('cities', "[]");
+var saved = function(city) {
+  
+    //  if (localStorage.getItem('cities')==null)  {
+    //      localStorage.setItem('cities', "[]");
+    //  }
+     
+     var oldCity = JSON.parse(localStorage.getItem('cities')) ||[];
+     if (oldCity.includes(city)===false){
+         oldCity.unshift(city)
+         localStorage.setItem('cities', JSON.stringify(oldCity));
      }
-     
-     
-     var oldCity = JSON.parse(localStorage.getItem('cities'));
     //  for (i=0; i <oldCity.length;i++)
     //  var eachCity=oldCity[i];
     //  console.log(eachCity);
@@ -228,22 +227,23 @@ var saved = function() {
     //      loadCities();
     //  }
      
-     oldCity.push(savedCity);
+     
      console.log(oldCity);
-     localStorage.setItem('cities', JSON.stringify(oldCity));
+    
 }
 
 var loadCities = function() {
-    cityArr = JSON.parse(localStorage.getItem("cities"));
+    historyContainerEl.innerHTML="";
+    cityArr = JSON.parse(localStorage.getItem("cities")) || [];
     console.log(cityArr);
-    if (cityArr !== null) {
-        for (i=0; i <cityArr.length; i++) {
+    
+        for (i=0; i <9; i++) {
             var eachCity = cityArr[i];
-            cityButtons(eachCity);
-        
+            if(eachCity != undefined){
+            cityButtons(eachCity);}
         }
        
-    }
+    
 }
 
 var cityButtons = function(newEachCity) {
@@ -252,13 +252,16 @@ var cityButtons = function(newEachCity) {
     console.log(newEachCity);
     historyContainerEl.appendChild(ctyBtn);
     ctyBtn.classList.add('cityButton');
-   ctyBtn.onclick = clickAnswer(newEachCity)
+   ctyBtn.onclick=clickAnswer;
 
 }
-function clickAnswer(eachCity) {
-    console.log(eachCity)
+function clickAnswer(e) {
+    e.preventDefault;
+    var clickedCity=e.target;
+    console.log(clickedCity.textContent);
+    
+    getCityLocation(clickedCity.textContent)
 }
 
-
+loadCities()
 userFormEl.addEventListener("submit", formSubmitHandler);
-userFormEl.addEventListener("submit", saved);
