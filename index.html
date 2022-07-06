@@ -12,7 +12,7 @@
     <title>City Weather Forecaster</title>
 </head>
 <body>
-    <div class="row no-gutters">
+    <div class="no-gutters">
         <header class="col-12  bg-primary text-light sticky-top d-flex flex-column p-4 p-lg-3">
             <h1 class="text-center">
                 
@@ -21,37 +21,39 @@
             </h1> 
         </header>
     
-        <main col-12 d-flex>
-            <div class="container">
+        <main col-12>
+            <div >
                 <div class="row">
 
-                    <div class="cityQuery d-flex col-sm-12 col-m-4 col-lg-4">
+                    <div class="cityQuery col-auto d-flex col-sm-12 col-m-4 col-lg-4 p-4">
                         <form id="user-form" class="container">
                             <label class="form-label" for="city">Search for a City:</label>
-                            <input name="city" id="city" type="text" autofocus="true" class="form-input" />
+                            <input name="city" id="city" type="text" autofocus="true" class="form-control w-100" placeholder="Example: Brookfield" />
                             <button type="submit" class="btn">Get City</button>
                         </form>
                         
 
                     </div>
             
-                    <div class="cityConditions d-flex col-sm-12 col-md-8 col-lg-8">
+                    <div class="cityConditions d-flex col-sm-12 col-md-8 col-lg-8 text-left" style= "display: none">
                         
                         <h2 class="enteredCity"><span id="city-search-term"></span></h2>
                         <div id="city-container" class="cityContainer">
-                            <img class="icon"></img>
-                            
+                        <img class="icon"></img> 
                         </div>
+                       
+                            
+                        
                         
                     </div>
 
                     <div class="cityHistory d-flex col-sm-12 col-md-4 col-lg-4">
-                        <div class="row" id="historyContainer"></div>
+                        <div class="btn-group-vertical justify-content-start" id="historyContainer"></div>
                         
                     </div>
 
                     <div class="cityFiveDay d-flex d-flex col-sm-12 col-md-8 col-lg-8">
-                        <h4 class="font-weight-bold">5-Day Forecast:</h4>
+                        <h4 class="font-weight-bold"></h4>
                         
                     </div> 
                 </div>
