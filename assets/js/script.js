@@ -23,7 +23,7 @@ var cityQueryEl=document.querySelector(".cityQuery");
 
 var getCityLocation = function (city) {
    
-    var geoApiUrl = "http://api.openweathermap.org/geo/1.0/direct?q="+city+"&limit=1&appid=526fc11b10a27117543151b1de2f92b6";
+    var geoApiUrl = "https://api.openweathermap.org/geo/1.0/direct?q="+city+"&limit=1&appid=526fc11b10a27117543151b1de2f92b6";
    // if (geoApiUrl=![]) {
        
     
@@ -106,7 +106,7 @@ var displayCity = function(data, citySearchTerm) {
     //icon
     var todayIcon = data.current.weather[0].icon;
     var currentIconEl = document.createElement("img");
-    currentIconEl.setAttribute("src", "http://openweathermap.org/img/wn/"+todayIcon+"@2x.png");
+    currentIconEl.setAttribute("src", "https://openweathermap.org/img/wn/"+todayIcon+"@2x.png");
     cityContainerEl.appendChild(currentIconEl);
      // display city name and date
      var todayDate = moment.unix(data.current.dt).format("M/D/YY");
@@ -167,7 +167,7 @@ var displayFiveDay = function (data, city) {
 
         var dailyIconEl = document.createElement("img");
         var dailyIcon = data.daily[i].weather[0].icon;
-        dailyIconEl.setAttribute("src", "http://openweathermap.org/img/wn/"+dailyIcon+"@2x.png");
+        dailyIconEl.setAttribute("src", "https://openweathermap.org/img/wn/"+dailyIcon+"@2x.png");
         dayDiv.appendChild(dailyIconEl);
 
         var cardBodyEl = document.createElement('div');
