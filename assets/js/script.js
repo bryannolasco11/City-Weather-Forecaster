@@ -161,7 +161,7 @@ var displayFiveDay = function (data, city) {
     //fiveDayEl.appendChild(titleP);
     for (var i = 1 ; i < 6 ; i++) {
         var dayDiv = document.createElement("div");
-        dayDiv.className = "card bg-info mb-3 text-center";
+        dayDiv.className = "card bg-info mb-3 m-1 text-center";
         dayDiv.style= "width: 18rem;";
         fiveDayEl.appendChild(dayDiv);
 
@@ -244,7 +244,7 @@ var cityButtons = function(newEachCity) {
     ctyBtn.innerHTML=newEachCity;
     console.log(newEachCity);
     historyContainerEl.appendChild(ctyBtn);
-    ctyBtn.className = "cityButton btn-warning";
+    ctyBtn.className = "cityButton btn-warning m-3";
     ctyBtn.onclick=clickAnswer;
 
 }
